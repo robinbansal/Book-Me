@@ -26,11 +26,11 @@ GetStarted.propTypes = {
 
 const styles = StyleSheet.create({
   button: {
-    width: '85%',
+    width: '84%',
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: w(2),
+//    paddingVertical: w(2),
     backgroundColor: '#888',
     borderRadius: w(10),
     marginTop: h(8),

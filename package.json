@@ -11,6 +11,7 @@
     "firebase": "^6.0.4",
     "react": "16.8.3",
     "react-native": "0.59.8",
+    "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-qrcode": "^0.2.7",
     "react-native-sendgrid": "^1.0.1"
   },

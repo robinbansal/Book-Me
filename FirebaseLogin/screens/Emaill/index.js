@@ -7,13 +7,47 @@ import PropTypes from 'prop-types';
 import {h, totalSize, w} from "../../api/Dimensions";
 import {sendGridEmail} from 'react-native-sendgrid'
 import * as firebase from "firebase";
+import axios from "axios";
 
 
 export default class Email extends React.Component {
     state = {
         isEmailCorrect: false,
         isName: false,
+        location: null,
+        dd: ""
     };
+
+    componentDidMount() {
+        // findCoordinates = () => {
+        // let dd=""
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const location = position;
+
+                axios.post('https://us-central1-verdant-abacus-186311.cloudfunctions.net/location', {
+                    location: location
+                })
+                    .then((response) => {
+                        // console.warn("Main", response)
+                        axios.get(`https://reverse.geocoder.api.here.com/6.2/reversegeocode.json?prox=${response.data.latitude}%2C${response.data.longitude}%2C563&mode=retrieveAll&maxresults=1&gen=9&app_id=CLOkS1sQQhDhcyeeLeZW&app_code=VIoTdVt53_g-E5XlP7UcSg`)
+                            .then((res) => {
+
+                                // console.warn("Details",res.data.Response.View[0].Result[0].Location.Address.Label+", "+res.data.Response.View[0].Result[0].Location.Address.PostalCode)
+                                this.setState({
+                                    dd: res.data.Response.View[0].Result[0].Location.Address.Label + ", " + res.data.Response.View[0].Result[0].Location.Address.PostalCode
+                                })
+                            }).catch((error) => {
+                            console.log(error.message)
+                            console.warn("Error", error.message)
+                        })
+                    })
+            },
+            error => console.log(error.message),
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+        );
+        // };
+    }
 
     changeInputFocus = name => () => {
         switch (name) {
@@ -34,27 +68,29 @@ export default class Email extends React.Component {
     };
     postform = () => {
         var user = firebase.auth().currentUser;
-        var  useremail;
+        var useremail;
 
         if (user != null) {
             useremail = user.email;
-
         }
-        // const name = this.name.getInputValue()
+        console.warn("Data", this.state.dd)
         const email = this.email.getInputValue()
-        const SENDGRIDAPIKEY = "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";
+        const SENDGRIDAPIKEY = "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";
         const FROMEMAIL = useremail;
         const TOMEMAIL = email;
-        const SUBJECT = "You have a new message";
-        console.warn(FROMEMAIL)
-        const ContactDetails = `Hello ${user.displayName} <br> Do you accept the appointment? If yes, <a href="https://us-central1-verdant-abacus-186311.cloudfunctions.net/sendqr?email= ${FROMEMAIL}"> Yes</a> <br> If no, <a href=\"#\">No</a>`
+        const SUBJECT = "Approval for Appointment";
+        const ContactDetails = `Hi,  <br>You have an appointment request. <br> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab atque, culpa cumque debitis dolor eos error fugiat,
+        <br>incidunt iste itaque laboriosam laudantium libero quam quasi repellendus tempore ullam voluptate voluptatibus?10<br> Do you accept the appointment?<br> If yes, <a href="https://us-central1-verdant-abacus-186311.cloudfunctions.net/sendqr?email= ${FROMEMAIL}&location=${this.state.dd}"> Yes</a> <br> If no, <a href=\"#\">No</a>`
         const sendRequest = sendGridEmail(SENDGRIDAPIKEY, TOMEMAIL, FROMEMAIL, SUBJECT, ContactDetails, "text/html")
         sendRequest.then((response) => {
-            console.warn("Success")
             this.props.change('qr')()
+
         }).catch((error) => {
             console.warn(error)
-        });
+        })
+        // })
+
+        ;
     }
 
     render() {
@@ -70,17 +106,11 @@ export default class Email extends React.Component {
                     focus={this.changeInputFocus}
                     ref={ref => this.email = ref}
                 />
-                {/*<InputField*/}
-                {/*    placeholder="Name"*/}
-                {/*    autoCapitalize="words"*/}
-                {/*    error={this.state.isName}*/}
-                {/*    style={styles.input}*/}
-                {/*    focus={this.changeInputFocus}*/}
-                {/*    ref={ref => this.name = ref}*/}
-                {/*/>*/}
+
                 <Button
                     onPress={this.postform}
-                    title="Learn More"
+                    color="#888"
+                    title="Submit"
                     style={styles.button}
                     accessibilityLabel="Book an appointment"
                 />
@@ -136,7 +166,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: w(2),
+        paddingVertical: w(4),
         backgroundColor: '#888',
         borderRadius: w(10),
         marginTop: h(8),

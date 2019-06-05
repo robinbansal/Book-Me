@@ -4,7 +4,6 @@ import QRCode from 'react-native-qrcode';
 import axios from 'axios';
 import * as firebase from "firebase";
 
-// import GetStarted from './GetStarted'
 
 class App extends Component {
     constructor() {
@@ -13,15 +12,8 @@ class App extends Component {
             inputValue: '',
             valueForQRCode: '',
             inputEmail: ''
-            // flag: 'true'
         };
     }
-
-    // shouldComponentUpdate(nextProps, nextState, nextContext) {
-    //     if( this.flag === false)
-    // return false;
-    //     else return true;
-    // }
 
     getTextInputValue = () => {
 
@@ -34,25 +26,25 @@ class App extends Component {
         } else {
             console.warn("You are not Logged in");
         }
+        // console.log(user.email)
+        console.warn(user.email)
 
-        axios.post('https://us-central1-verdant-abacus-186311.cloudfunctions.net/genqr', {
+        axios.post('https://us-central1-verdant-abacus-186311.cloudfunctions.net/genQR', {
+            // console.log('')
             email: user.email
+        }).then((response) => {
+            console.warn(response)
+            console.warn(response.data)
+            console.warn(response.data.location)
+            // console.log(response)
+            // this.setState({
+            //     valueForQRCode: "Name: " + user.displayName + "\n" + "VerifiedEmail id: " + user.email + "\n" + response
+            // })
         })
-
-            .then((response) => {
-                // console.warn("details: ", name+email+uid+response.data)
-                this.setState({
-                    valueForQRCode: "Name: " + user.displayName + "\n" + "VerifiedEmail id: " + user.email + "\n" + response.data
-                })
-
-                // this.setState({valueForQRCode: this.state.inputValue});
-                // console.warn("Response: ", response.data);
-            })
             .catch((error) => {
                 console.warn("Error: ", error);
                 // console.warn(this.state.valueForQRCode)
             });
-
     };
 
 
@@ -75,33 +67,10 @@ class App extends Component {
                     bgColor="#000"
                     fgColor="#fff"
                 />
-                {/*<TextInput*/}
-                {/*    // Input to get the value to set on QRCode*/}
-                {/*    style={styles.TextInputStyle}*/}
-                {/*    onChangeText={text => this.setState({inputEmail: text})}*/}
-                {/*    underlineColorAndroid="transparent"*/}
-                {/*    placeholder="Enter Email"*/}
-                {/*/>*/}
-                {/*<TextInput*/}
-                {/*    // Input to get the value to set on QRCode*/}
-                {/*    style={styles.TextInputStyle}*/}
-                {/*    onChangeText={text => this.setState({inputValue: text})}*/}
-                {/*    underlineColorAndroid="transparent"*/}
-                {/*    placeholder="Enter text to Generate QR Code"*/}
-                {/*/>*/}
-                {/*<GetStarted*/}
 
-                {/*>*/}
-
-
-                {/*</GetStarted>*/}
                 <TouchableOpacity
                     onPress={
                         this.getTextInputValue
-                        // this.setState({
-                        //     flag: 'false'
-                        // })
-
                     }
                     activeOpacity={0.7}
                     style={styles.button}>

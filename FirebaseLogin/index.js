@@ -26,7 +26,7 @@ export default class FirebaseLogin extends Component {
     }
 
     state = {
-        currentScreen: 'register', // can be: 'login' or 'register' or 'forgot'
+        currentScreen: 'qr', // can be: 'login' or 'register' or 'forgot'
     };
 
     changeScreen = screenName => () => {
