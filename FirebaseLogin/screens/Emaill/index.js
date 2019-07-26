@@ -78,7 +78,7 @@ export default class Email extends React.Component {
         const name = this.name.getInputValue()
         const date = this.date.getInputValue()
         const time = this.time.getInputValue()
-        const SENDGRIDAPIKEY = "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";
+        const SENDGRIDAPIKEY = "SG._rCtlYC_TeqgJeygrXQ2dlA.F_mD0Rc1OdJvI1q5gpTefdx2t9FKCDe8hweOda5vRawss";
         const FROMEMAIL = useremail;
         const TOMEMAIL = email;
         const SUBJECT = "AUTORIZACIÓN DE VISITANTE ";
