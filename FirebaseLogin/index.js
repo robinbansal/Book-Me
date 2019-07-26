@@ -8,12 +8,18 @@ import Email from './screens/Emaill';
 import Qr from './screens/QR';
 import {w} from './api/Dimensions';
 import * as firebase from "firebase"
+import Img from './screens/Img'
+// import 'firebase/firestore'
+
 
 export default class FirebaseLogin extends Component {
     componentDidMount() {
+
+
+        // const settings = {timestampsInSnapshots: true};
         let config = {
             // var firebaseConfig = {
-            apiKey: "AIzaSyDg_Lpf0gNlIdBNmmOWKs7T9UvLud3Qgeg",
+            apiKey: "AIzaSyDg_Lpf0gNlIdBNmmOWKs7T9UvLud3Qge",
             authDomain: "verdant-abacus-186311.firebaseapp.com",
             databaseURL: "https://verdant-abacus-186311.firebaseio.com",
             projectId: "verdant-abacus-186311",
@@ -22,11 +28,16 @@ export default class FirebaseLogin extends Component {
             appId: "1:687785097148:web:9e76cbc4e9ed65b0"
             // };
         };
+
         firebase.initializeApp(config);
+        // firebase.firestore().settings();
     }
 
+// if(user){
+//
+// }
     state = {
-        currentScreen: 'qr', // can be: 'login' or 'register' or 'forgot'
+        currentScreen: 'register', // can be: 'login' or 'register' or 'forgot'
     };
 
     changeScreen = screenName => () => {
@@ -55,6 +66,10 @@ export default class FirebaseLogin extends Component {
                 break;
             case 'qr':
                 screenToShow = <Qr change={this.changeScreen}/>
+                break;
+            case 'img':
+                screenToShow = <Img change={this.changeScreen}/>
+
         }
 
         return (
@@ -75,7 +90,7 @@ export default class FirebaseLogin extends Component {
         )
     }
 }
-
+// export const firestore = firebase.firestore()
 FirebaseLogin.propTypes = {
     login: PropTypes.func.isRequired,
 };

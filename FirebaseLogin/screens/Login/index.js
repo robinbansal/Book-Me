@@ -51,12 +51,12 @@ export default class Login extends Component {
             .then(user => {
                 if (user) {
                     console.warn("login: ", user.user.email)
-                     this.props.success(user);
-                    this.props.change('register')();
+                    // this.props.success(user);
+                    this.props.change('img')();
 
 
-                }else
-                this.setState({isLogin: false});
+                } else
+                    this.setState({isLogin: false});
             });
     };
 
