@@ -6,7 +6,6 @@ const config = {
         databaseURL: "https://verdant-abacus-186311.firebaseio.com",
         projectId: "verdant-abacus-186311",
         storageBucket: "verdant-abacus-186311.appspot.com",
-        messagingSenderId: "6877850971648",
         appId: "1:687785097148:web:9e76cbc4ea9ed65b0"
     // };
 };
